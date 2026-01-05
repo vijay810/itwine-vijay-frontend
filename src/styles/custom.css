@@ -1,0 +1,78 @@
+/* @import url('https://unpkg.com/bs-brain@2.0.4/components/navbars/navbar-1/assets/css/navbar-1.css'); */
+.prev-icon {
+  left: 43px;
+  position: absolute;
+  color: red;
+  /* border: 1px solid red;
+    border-radius: 50%;
+    background: pink; */
+}
+
+.next-icon {
+  right: 43px;
+  position: absolute;
+  color: red;
+  /* border: 1px solid red;
+    border-radius: 50%;
+    background: pink; */
+}
+.pointer {
+    cursor: pointer;
+}
+
+.font10 {
+    font-size: 10px;
+}
+
+.font12 {
+    font-size: 12px;
+}
+
+.font14 {
+    font-size: 14px;
+}
+
+.font16 {
+    font-size: 16px;
+}
+
+.font18 {
+    font-size: 18px;
+}
+
+.font22 {
+    font-size: 22px;
+}
+
+.font25 {
+    font-size: 25px;
+}
+@media (max-width: 576px) {
+    .font10 {
+        font-size: 8px;
+    }
+
+    .font12 {
+        font-size: 10px;
+    }
+
+    .font14 {
+        font-size: 12px;
+    }
+
+    .font16 {
+        font-size: 14px;
+    }
+
+    .font18 {
+        font-size: 16px;
+    }
+
+    .font22 {
+        font-size: 18px;
+    }
+
+    .font25 {
+        font-size: 20px;
+    }
+}
