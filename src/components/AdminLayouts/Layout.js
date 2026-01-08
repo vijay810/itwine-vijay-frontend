@@ -63,13 +63,14 @@ function Layout({ children }) {
 
     return (
         <>
-            <div>
+            <div className="d-flex flex-column min-vh-100">
                 <Header />
-                <main className='min-vh-78'>
+                <main className="flex-fill">
                     {children}
                 </main>
                 <Footer />
             </div>
+
         </>
     );
 }

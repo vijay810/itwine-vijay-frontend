@@ -3,6 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import "../App.css";
 import axios from 'axios';
+import  Register  from './Register.js'
 
 function Login() {
     const clearForm = {
@@ -11,14 +12,17 @@ function Login() {
         role: "",
     };
     const clearForgotForm = {
-        username: "",
-        newpassword: "",
-        confirmpassword: "",
-    }
+        email: "",
+        password: "",
+        confirmPassword: "",
+    };
+
 
     const [isFlipped, setIsFlipped] = useState(false);
     const [loginForm, setLoginForm] = useState(clearForm);
     const [forgotpswForm, setForgotpswForm] = useState(clearForgotForm)
+    const [showRegister, setShowRegister] = useState(false);
+
     const [showPassword, setShowPassword] = useState(false);
     const [newshowPassword, setNewshowPassword] = useState(false);
     const [confirmshowPassword, setConfirmshowPassword] = useState(false);
@@ -29,33 +33,73 @@ function Login() {
     const navigate = useNavigate();
 
     // Memoize the checkTokenValidity function
-    const checkTokenValidity = useCallback(async () => {
-        const token = localStorage.getItem('token'); // get token
-        if (!token) {
-            console.log("No token in localStorage, skipping verification");
-            return;
-        }
+    // const checkTokenValidity = useCallback(async () => {
+    //     const token = localStorage.getItem('token'); // get token
+    //     if (!token) {
+    //         console.log("No token in localStorage, skipping verification");
+    //         return;
+    //     }
 
+    //     try {
+    //         const apiUrl = `${process.env.REACT_APP_API}/auth/verify-token`;
+    //         const response = await axios.get(apiUrl, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}` // <-- only send if token exists
+    //             }
+    //         });
+
+    //         console.log("Token valid:", response.data);
+
+    //     } catch (error) {
+    //         console.error("Token verification failed:", error.response?.data);
+    //         if (error.response?.status === 401) {
+    //             localStorage.removeItem('token');
+    //             localStorage.removeItem('loginForm');
+    //             setErrorMessage('Session expired. Please log in again.');
+    //             setTimeout(() => navigate('/'), 1000);
+    //         }
+    //     }
+    // }, [navigate]);
+    const checkTokenValidity = useCallback(async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return; // no token → no need to verify
+        }
         try {
             const apiUrl = `${process.env.REACT_APP_API}/auth/verify-token`;
-            const response = await axios.get(apiUrl, {
+            await axios.get(apiUrl, {
                 headers: {
-                    Authorization: `Bearer ${token}` // <-- only send if token exists
-                }
+                    Authorization: `Bearer ${token}`,
+                },
             });
-
-            console.log("Token valid:", response.data);
-
+            // token is valid → do nothing
         } catch (error) {
-            console.error("Token verification failed:", error.response?.data);
+            console.error("Token verification failed:", error);
             if (error.response?.status === 401) {
+                // token expired or invalid
                 localStorage.removeItem('token');
                 localStorage.removeItem('loginForm');
+
                 setErrorMessage('Session expired. Please log in again.');
-                setTimeout(() => navigate('/'), 1000);
+
+                setTimeout(() => {
+                    navigate('/');
+                }, 1000);
+
+            } else if (error.response?.status === 404) {
+                // verify-token API does not exist
+                console.warn('verify-token API not found');
+
+                // silently clear token to prevent repeated errors
+                localStorage.removeItem('token');
+
+            } else {
+                // any other error
+                setErrorMessage('Unable to verify session. Please log in again.');
             }
         }
     }, [navigate]);
+
 
 
 
@@ -264,24 +308,62 @@ function Login() {
     const forgotPswdCard = () => {
         setIsFlipped(true);
     };
+    const signBtn = () =>{
+        setIsFlipped(false);
+    }
 
     // const backToLogin = () => {
     //     setIsFlipped(false);
     // };
 
 
+    const storedUserId = localStorage.getItem('user_id');
 
     const submitupdateBtn = async (e) => {
         e.preventDefault();
 
-        console.log(forgotpswForm);
-        setForgotpswForm(clearForgotForm)
-        setSuccessMsg("Successfully Changed Password")
-        setTimeout(() => {
-            setSuccessMsg('')
-            setIsFlipped(false);
-        }, 1000)
-    }
+        try {
+            const { email, password, confirmPassword } = forgotpswForm;
+            const user_id = storedUserId; // from localStorage
+
+            if (!user_id) {
+                setErrorMessage('User not identified. Please login again.');
+                setTimeout(() => setErrorMessage(''), 1000); // clear after 1s
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                setErrorMessage('Passwords do not match');
+                setTimeout(() => setErrorMessage(''), 1000); // clear after 1s
+                return;
+            }
+
+            await axios.post(
+                `${process.env.REACT_APP_API}/auth/forgot-password`,
+                {
+                    email,
+                    user_id,
+                    password,
+                    confirmPassword
+                }
+            );
+
+            setErrorMessage('');
+            setSuccessMsg('Password changed successfully');
+            setTimeout(() => {
+                setForgotpswForm(clearForgotForm);
+                setSuccessMsg('');
+                setIsFlipped(false); // back to login
+            }, 1000); // <-- clear success message after 1 second
+
+        } catch (err) {
+            setSuccessMsg('');
+            setErrorMessage(err.response?.data?.message || 'Failed to reset password');
+            setTimeout(() => setErrorMessage(''), 1000); // clear error after 1s
+        }
+    };
+
+
 
 
     return (
@@ -292,12 +374,26 @@ function Login() {
 
                     <div className='container col d-flex align-items-center justify-content-center min-vh-100'>
 
+
+
+
+                        {showRegister ? (
+
+                            <Register onBack={() => setShowRegister(false)} />
+                        ) : (
+                            // <div className={`cards-flip ${isFlipped ? 'flip' : ''}`}>
+                            // EXISTING LOGIN + FORGOT PASSWORD UI 
+                            //  </div> 
+                        
+
+
+
                         <div className={`cards-flip ${isFlipped ? 'flip' : ''}`}>
                             <div className='d-flex justify-content-center d-sm-none'>
-                                <img src="./images/logo3.png" alt="" width={150} style={{ filter: 'hue-rotate(300deg)'}} />
+                                <img src="./images/logo3.png" alt="" width={150} style={{ filter: 'hue-rotate(300deg)' }} />
                             </div>
                             <div className='card signIn-face signIn-front'>
-                               
+
                                 <p className='fw-bold h1 text-center py-2 mb-0'>Sign In</p>
                                 <p className='mb-0 pt-2 pb-4 small text-center'>Please enter your username and password!</p>
 
@@ -368,10 +464,20 @@ function Login() {
                                             {errorMessage && <p className='text-danger my-0 py-0'>{errorMessage}</p>}
                                         </div>
                                     </div>
-                                    <div className="card-footer border-0 text-center mb-auto px-0 ">
+                                    <div className="card-footer border-0 text-center mb-auto px-0 py-0">
                                         <div>
                                             <button type='submit' className='btn btn-info signinBtn'>Login</button>
-                                            <p className="text-center my-0 small py-0">Click here to <Link to='/register'>register</Link> if you don't have an account.</p>
+                                            {/* <p className="text-center my-0 small py-0">Click here to <Link to='/register'>register</Link> if you don't have an account.</p> */}
+                                            <p className="text-center my-0 small pt-2">Click here to
+                                                <span
+                                                    className="text-primary px-1"
+                                                    style={{ cursor: 'pointer' }}
+                                                    onClick={() => setShowRegister(true)}
+                                                >
+                                                    Register
+                                                </span>
+                                                 if you don't have an account.</p>
+
                                         </div>
                                     </div>
                                 </form>
@@ -387,8 +493,8 @@ function Login() {
                                                 className="input-text"
                                                 type="email"
                                                 id="username"
-                                                name="username"
-                                                value={forgotpswForm.username}
+                                                name="email"
+                                                value={forgotpswForm.email}
                                                 onChange={inputsPswdHandler}
                                                 placeholder=" "
                                                 required
@@ -400,8 +506,8 @@ function Login() {
                                                 className="input-text"
                                                 type={newshowPassword ? 'text' : 'password'}
                                                 id="newpassword"
-                                                name="newpassword"
-                                                value={forgotpswForm.newpassword}
+                                                name="password"
+                                                value={forgotpswForm.password}
                                                 onChange={inputsPswdHandler}
                                                 placeholder=" "
                                                 required
@@ -416,8 +522,8 @@ function Login() {
                                                 className="input-text"
                                                 type={confirmshowPassword ? 'text' : 'password'}
                                                 id="confirmpassword"
-                                                name="confirmpassword"
-                                                value={forgotpswForm.confirmpassword}
+                                                name="confirmPassword"
+                                                value={forgotpswForm.confirmPassword}
                                                 onChange={inputsPswdHandler}
                                                 placeholder=" "
                                                 required
@@ -432,14 +538,28 @@ function Login() {
                                             <p className='text-success'>{successMsg}</p>
                                         </div>
                                     </div>
-                                    <div className='card-footer border-0 forgot-button'>
+                                    <div className='card-footer border-0 forgot-button py-0'>
                                         <div className=' d-grid'>
                                             <button type='submit' className='btn btn-info' onClick={submitupdateBtn}>Update</button>
                                         </div>
+                                                <p className='text-center small mb-0 pt-2'>Click here to<span className='text-primary pointer px-1' onClick={signBtn}>Login</span>if you remember your password.</p>
                                     </div>
                                 </form>
+                                <div className="text-center mt-2">
+                                    {successMsg && (
+                                        <p className="text-success mb-1">{successMsg}</p>
+                                    )}
+                                    {errorMessage && (
+                                        <p className="text-danger mb-1">{errorMessage}</p>
+                                    )}
+                                </div>
+
+                                        
+                
+
                             </div>
                         </div>
+                        )}
                     </div>
                     <div className='col d-none d-sm-block'>
                         <img src="./images/logo3.png" alt="" />

@@ -116,8 +116,8 @@ const EmpLeave = () => {
                                                 onChange={(e) => setNewStatus(Number(e.target.value))}
                                             >
                                                 <option value={0}>Pending</option>
-                                                <option value={1}>Rejected</option>
-                                                <option value={2}>Approved</option>
+                                                <option value={1}>Approved</option>
+                                                <option value={2}>Rejected</option>
                                             </select>
                                         ) : (
                                             <>
@@ -127,13 +127,13 @@ const EmpLeave = () => {
                                                     </span>
                                                 )}
                                                 {le.status === 1 && (
-                                                    <span className="badge rounded-pill text-bg-danger">
-                                                        Rejected
+                                                        <span className="badge rounded-pill text-bg-success">
+                                                             Approved
                                                     </span>
                                                 )}
                                                 {le.status === 2 && (
-                                                    <span className="badge rounded-pill text-bg-success">
-                                                        Approved
+                                                        <span className="badge rounded-pill text-bg-danger">
+                                                            Rejected
                                                     </span>
                                                 )}
                                             </>
