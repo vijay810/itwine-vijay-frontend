@@ -66,7 +66,7 @@ function Login() {
             return; // no token → no need to verify
         }
         try {
-            const apiUrl = `${process.env.REACT_APP_API}/auth/verify-token`;
+            const apiUrl = `${process.env.REACT_APP_API}auth/verify-token`;
             await axios.get(apiUrl, {
                 headers: {
                     Authorization: `Bearer ${token}`,
