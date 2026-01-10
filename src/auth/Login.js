@@ -376,9 +376,7 @@ function Login() {
 
 
 
- <div className='d-flex justify-content-center d-sm-none'>
-                                <img src="./images/logo3.png" alt="" width={150} style={{ filter: 'hue-rotate(300deg)' }} />
-                            </div>
+
                         {showRegister ? (
 
                             <Register onBack={() => setShowRegister(false)} />
@@ -391,7 +389,9 @@ function Login() {
 
 
                         <div className={`cards-flip ${isFlipped ? 'flip' : ''}`}>
-                           
+                            <div className='d-flex justify-content-center d-sm-none'>
+                                <img src="./images/logo3.png" alt="" width={150} style={{ filter: 'hue-rotate(300deg)' }} />
+                            </div>
                             <div className='card signIn-face signIn-front'>
 
                                 <p className='fw-bold h1 text-center py-2 mb-0'>Sign In</p>
