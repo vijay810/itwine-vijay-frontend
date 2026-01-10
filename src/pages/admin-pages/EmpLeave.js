@@ -80,8 +80,9 @@ const EmpLeave = () => {
 
             <div className="p-2">
                 {leavesData.length > 0 ? (
-                    <table className="table table-striped table-hover table-bordered border-secondary">
-                        <thead>
+                     <div className="table-responsive">
+                            <table className="table table-striped my-0 table-bordered table-hover">
+                                <thead className="table-dark">
                             <tr>
                                 <th>Sl.no</th>
                                 <th>Employee Name</th>
@@ -172,6 +173,7 @@ const EmpLeave = () => {
                         </tbody>
 
                     </table>
+                    </div>
                 ) : (
                     <p className="text-center">No data Found</p>
                 )}
