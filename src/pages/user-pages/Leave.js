@@ -255,8 +255,9 @@ const Leave = () => {
                 <hr />
 
                 {leavesData.length > 0 ? (
-                    <table className="table table-bordered table-striped">
-                        <thead>
+                    <div className="table-responsive">
+                            <table className="table table-striped my-0 table-bordered table-hover">
+                                <thead className="table-dark">
                             <tr>
                                 <th>#</th>
                                 <th>Reason</th>
@@ -281,6 +282,7 @@ const Leave = () => {
                             ))}
                         </tbody>
                     </table>
+                    </div>
                 ) : (
                     <p className="text-center text-muted">
                         No leave records found
