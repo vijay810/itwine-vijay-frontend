@@ -273,7 +273,7 @@ const Leave = () => {
                                     <td>{le.reason}</td>
                                     <td>{formatDate(le.formdate)}</td>
                                     <td>{formatDate(le.todate)}</td>
-                                    <td className="text-center">
+                                    <td className="text-center text-dark">
                                         {le.status === 0 && <span className="badge bg-warning">Pending</span>}
                                         {le.status === 1 && <span className="badge bg-success">Approved</span>}
                                         {le.status === 2 && <span className="badge bg-danger">Rejected</span>}
