@@ -206,7 +206,9 @@
 }
   /* Mobile phones only */
 @media (max-width: 767px) {
-
+  .itwine-logo{
+    margin: 15px 0px 15px 0px;
+  }
    .auth-page{
     align-items: normal !important;
   }

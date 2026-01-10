@@ -62,7 +62,7 @@ function Register({ onBack }) {
             </p>
         </div> */}
             <div className='cards-flip '>
-                 <div className='d-flex justify-content-center d-sm-none'>
+                 <div className='d-flex itwine-logo justify-content-center d-sm-none'>
                                 <img src="./images/logo3.png" alt="" width={150} style={{ filter: 'hue-rotate(300deg)' }} />
                             </div>
                 <div className='card signIn-front p-3' >

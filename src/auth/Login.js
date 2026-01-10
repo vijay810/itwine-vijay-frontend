@@ -373,10 +373,6 @@ function Login() {
                 <div className='background-design row mx-0'>
 
                     <div className='container auth-page col d-flex align-items-center justify-content-center min-vh-100'>
-
-
-
-
                         {showRegister ? (
 
                             <Register onBack={() => setShowRegister(false)} />
@@ -389,7 +385,7 @@ function Login() {
 
 
                         <div className={`cards-flip ${isFlipped ? 'flip' : ''}`}>
-                            <div className='d-flex justify-content-center d-sm-none'>
+                            <div className='d-flex itwine-logo justify-content-center d-sm-none'>
                                 <img src="./images/logo3.png" alt="" width={150} style={{ filter: 'hue-rotate(300deg)' }} />
                             </div>
                             <div className='card signIn-face signIn-front'>
