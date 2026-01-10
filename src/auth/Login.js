@@ -283,7 +283,7 @@ function Login() {
             } else {
                 localStorage.removeItem('loginForm');
             }
-            setSuccessMessage("Login Successful"); // <-- set success message
+            setSuccessMessage(response.data.message); // <-- set success message
             setErrorMessage('');
             setLoginForm(clearForm);
 

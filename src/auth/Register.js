@@ -9,13 +9,14 @@ function Register({ onBack }) {
         email: "",
         mob: "",
         password: "",
-        role: "",
+        role: "2",
         status: '1'
     };
 
     const [signupForm, setSignupForm] = useState(clearForm);
     const [showPassword, setShowPassword] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+    const [hideRole, setHideRole] = useState(false)
     const [errorMessage, setErrorMessage] = useState('');
     // const navigate = useNavigate();
 
@@ -32,7 +33,7 @@ function Register({ onBack }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setHideRole(false)
         try {
             const apiUrl = `${process.env.REACT_APP_API}/auth/register`;
             await axios.post(apiUrl, signupForm);
@@ -137,7 +138,7 @@ function Register({ onBack }) {
                                     {showPassword ? <FaEye /> : <FaEyeSlash />}
                                 </div>
                             </div>
-                            <div className="input-container mb-3">
+                         { hideRole &&  <div className="input-container mb-3">
                                 <select
                                     className="input-text"
                                     id="role"
@@ -151,7 +152,7 @@ function Register({ onBack }) {
                                     <option value="1">Admin</option>
                                     <option value="2">User</option>
                                 </select>
-                            </div>
+                            </div>}
 
                             <div className='text-center pt-2'>
                                 {successMessage && <p className='text-success'>{successMessage}</p>}
