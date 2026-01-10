@@ -15,6 +15,7 @@ function Users() {
         info: "",
         uname: "",
         password: '',
+        confirmpassword:'',
         status: "1",
         role: ""
     });
@@ -85,6 +86,7 @@ function Users() {
             info: "",
             uname: "",
             password: "",
+            confirmpassword:'',
             status: "",
             role: "",
         });
@@ -106,6 +108,7 @@ function Users() {
             info: "",
             uname: "",
             password: "",
+            confirmpassword:'',
             status: "",
             role: ""
         });
@@ -211,6 +214,10 @@ function Users() {
             newErrors.password = "Password is required";
             isValid = false;
         }
+        if(!userForm.confirmpassword || typeof userForm.confirmpassword !== 'string' || userForm.confirmpassword.trim() === ''){
+            newErrors.confirmpassword ="confirm password is required";
+            isValid = false;
+        }
         const roleValue = parseInt(userForm.role, 10);
         if (isNaN(roleValue) || roleValue <= 0) {
             newErrors.role = "Role is required and must be a valid number";
@@ -242,6 +249,7 @@ function Users() {
                             dep:'',
                             uname: "",
                             password: "",
+                            confirmpassword:'',
                             status: '1',
                             role: ''
                         });
@@ -270,6 +278,7 @@ function Users() {
                             info: "",
                             uname: "",
                             password: "",
+                            confirmpassword:'',
                             status: '',
                             role: '',
                         });
@@ -319,6 +328,7 @@ function Users() {
             info: selected.info,
             uname: selected.uname,
             password: selected.password,
+            confirmpassword: selected.confirmpassword,
             status: selected.status,
             role: selected.role
         });
@@ -601,6 +611,29 @@ function Users() {
                                             </div>
                                             {errors.password && (
                                                 <div className="text-danger">{errors.password}</div>
+                                            )}
+                                        </div>
+                                        <div className='col-sm-3'>
+
+                                            <label className='form-label my-0'>Confirm Password</label><span className='text-danger'>*</span>
+                                            <div className="input-group">
+                                                <input
+                                                    type={showPassword ? "text" : "confirmpassword"}
+                                                    className="form-control"
+                                                    name="confirmpassword"
+                                                    value={userForm.confirmpassword}
+                                                    onChange={inputsHandler}
+                                                />
+                                                <button
+                                                    className="btn btn-outline-secondary"
+                                                    type="button"
+                                                    onClick={togglePasswordVisibility}
+                                                >
+                                                    <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                                                </button>
+                                            </div>
+                                            {errors.confirmpassword && (
+                                                <div className="text-danger">{errors.confirmpassword}</div>
                                             )}
                                         </div>
                                     </div>

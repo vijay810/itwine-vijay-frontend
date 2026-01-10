@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 // import { Link } from 'react-router-dom';
 function Register({ onBack }) {
@@ -17,7 +17,7 @@ function Register({ onBack }) {
     const [showPassword, setShowPassword] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -37,10 +37,16 @@ function Register({ onBack }) {
             const apiUrl = `${process.env.REACT_APP_API}/auth/register`;
             await axios.post(apiUrl, signupForm);
             setSuccessMessage("Successfully Registered");
+            // setTimeout(() => {
+            //     setSuccessMessage('');
+            //     navigate('/');
+            // }, 1000);
             setTimeout(() => {
                 setSuccessMessage('');
-                navigate('/');
-            }, 1000);
+                setSignupForm(clearForm); // 🔥 clear form
+                onBack(); // 🔥 switch back to Login
+            }, 1500);
+
         } catch (error) {
             setErrorMessage(error.response?.data?.msg || 'Registration failed');
         }
@@ -62,9 +68,9 @@ function Register({ onBack }) {
             </p>
         </div> */}
             <div className='cards-flip '>
-                 <div className='d-flex itwine-logo justify-content-center d-sm-none'>
-                                <img src="./images/logo3.png" alt="" width={150} style={{ filter: 'hue-rotate(300deg)' }} />
-                            </div>
+                <div className='d-flex itwine-logo justify-content-center d-sm-none'>
+                    <img src="./images/logo3.png" alt="" width={150} style={{ filter: 'hue-rotate(300deg)' }} />
+                </div>
                 <div className='card signIn-front p-3' >
                     <p className='fw-bold h1 text-center'>Sign Up</p>
 

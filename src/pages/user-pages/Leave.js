@@ -127,6 +127,12 @@ const Leave = () => {
 
     useEffect(() => {
         getData();
+        
+    const interval = setInterval(() => {
+        getData();
+    }, 5000); // every 5 seconds
+
+    return () => clearInterval(interval);
     }, []);
 
     /* -------------------- Utils -------------------- */
@@ -249,9 +255,8 @@ const Leave = () => {
                 <hr />
 
                 {leavesData.length > 0 ? (
-                     <div className="table-responsive">
-                            <table className="table table-striped my-0 table-bordered table-hover">
-                                <thead className="table-dark">
+                    <table className="table table-bordered table-striped">
+                        <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Reason</th>
@@ -276,7 +281,6 @@ const Leave = () => {
                             ))}
                         </tbody>
                     </table>
-                    </div>
                 ) : (
                     <p className="text-center text-muted">
                         No leave records found
