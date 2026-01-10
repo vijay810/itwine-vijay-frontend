@@ -47,7 +47,7 @@ function Register({ onBack }) {
     };
 
     return (
-        <div className='container d-flex align-items-center justify-content-center min-vh-100'>
+        <>
 
             {/* <div className="card">
             <h2 className="text-center">Register</h2>
@@ -63,11 +63,11 @@ function Register({ onBack }) {
         </div> */}
             <div className='cards-flip '>
                 <div className='card signIn-front p-3' >
-                    <p className='fw-bold h1 text-center py-2'>Sign Up</p>
+                    <p className='fw-bold h1 text-center'>Sign Up</p>
 
                     <form onSubmit={handleSubmit}>
                         <div className='card-body px-0'>
-                            <div className="input-container my-4">
+                            <div className="input-container mb-3">
                                 <input
                                     type="text"
                                     className="input-text"
@@ -161,7 +161,7 @@ function Register({ onBack }) {
 
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
