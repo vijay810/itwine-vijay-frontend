@@ -372,7 +372,7 @@ function Login() {
             <div className='container-fluid backBg px-0'>
                 <div className='background-design row mx-0'>
 
-                    <div className='container col d-flex align-items-center justify-content-center min-vh-100'>
+                    <div className='container auth-page col d-flex align-items-center justify-content-center min-vh-100'>
 
 
 

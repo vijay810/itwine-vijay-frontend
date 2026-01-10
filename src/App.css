@@ -204,6 +204,14 @@
   width: 130px !important;
   height: 200px !important;
 }
+  /* Mobile phones only */
+@media (max-width: 767px) {
+
+   .auth-page{
+    align-items: normal !important;
+  }
+}
+
 
 /* Styles for devices larger than 768px (tablets and desktops) */
 @media (min-width: 768px) {
